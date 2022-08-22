@@ -1,7 +1,7 @@
 ﻿namespace SteamDataModel;
 
 
-public class Author
+public record struct Author
 {
     [ReaderInfo("Author Steam ID")]
     public string? steamid { get; set; }
@@ -19,7 +19,7 @@ public class Author
     public long last_played { get; set; }
 }
 
-public class QuerySummary
+public record struct QuerySummary
 {
     [ReaderInfo("Reviews last page")]
     public int num_reviews { get; set; }
@@ -35,7 +35,7 @@ public class QuerySummary
     public int? total_reviews { get; set; }
 }
 
-public class Review
+public record struct Review
 {
     [ReaderInfo("Recommendation ID")]
     public string? recommendationid { get; set; }
@@ -71,7 +71,7 @@ public class Review
     public long timestamp_dev_responded { get; set; }
 }
 
-public class SteamModelRoot
+public record struct SteamModelRoot
 {
     [ReaderInfo("Success at query")]
     public int success { get; set; }
@@ -83,7 +83,7 @@ public class SteamModelRoot
     public string? cursor { get; set; }
 }
 
-[System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Class | System.AttributeTargets.Struct)]  
+[System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Struct)]  
 public class ReaderInfoAttribute : System.Attribute  
 {  
     public string readableName;

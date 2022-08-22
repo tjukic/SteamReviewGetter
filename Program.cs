@@ -129,7 +129,7 @@ internal static class Program
                         
                         // Temp hack
                         //DateTimeOffset.FromUnixTimeSeconds(1660937760).LocalDateTime.ToUniversalTime()
-                        if (reviewEntryHeaderItrr == 4 ||reviewEntryHeaderItrr == 5 ||reviewEntryHeaderItrr == 15)
+                        if (reviewEntryHeaderItrr is 4 or 5 or 15)
                         {
                             row.CreateCell(reviewEntryHeaderItrr)
                                 .SetCellValue($"{DateTimeOffset.FromUnixTimeSeconds((long)(typeof(Review).GetProperties()[reviewEntryHeaderItrr].GetValue(c.FinalDoc.reviews[reviewEntryItrr], null))).LocalDateTime.ToUniversalTime()}");

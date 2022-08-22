@@ -49,33 +49,31 @@ public class ReviewFetcher
         try
         {
             var doc = JsonSerializer.Deserialize<SteamModelRoot>(rs);
-            
-            if (doc != null)
-            {
-                _responseDoc = doc;
-                if(_responseDoc.query_summary?.total_reviews != null) {
-                    FinalDoc = _responseDoc;
-                }
 
-                if(FinalDoc.reviews is { Count: > 0 } && 
-                   _responseDoc.query_summary?.total_reviews == null &&
-                   FinalDoc.query_summary?.total_reviews != null)
-                {
-                    if (_responseDoc.reviews != null)
-                    {
-                        FinalDoc.reviews.AddRange(_responseDoc.reviews);
-                        if (FinalDoc.query_summary.total_reviews == FinalDoc.reviews.Count)
-                        {
-                            progress.Report(100.0f);
-                            ActiveFlag = false;
-                        }
-
-                        progress.Report((double)((float)FinalDoc.reviews.Count /
-                                                 ((int)FinalDoc.query_summary.total_reviews)));
-                    }
-                }
-                MutableCursorString = HttpUtility.UrlEncode(_responseDoc.cursor);
+            _responseDoc = doc;
+            if(_responseDoc.query_summary?.total_reviews != null) {
+                FinalDoc = _responseDoc;
             }
+
+            if(FinalDoc.reviews is { Count: > 0 } && 
+               _responseDoc.query_summary?.total_reviews == null &&
+               FinalDoc.query_summary?.total_reviews != null)
+            {
+                if (_responseDoc.reviews != null)
+                {
+                    FinalDoc.reviews.AddRange(_responseDoc.reviews);
+                    if (FinalDoc.query_summary?.total_reviews == FinalDoc.reviews.Count)
+                    {
+                        progress.Report(100.0f);
+                        ActiveFlag = false;
+                    }
+
+                    if (FinalDoc.query_summary?.total_reviews != null)
+                        progress.Report((double)((float)FinalDoc.reviews.Count /
+                                                 ((int)FinalDoc.query_summary?.total_reviews)));
+                }
+            }
+            MutableCursorString = HttpUtility.UrlEncode(_responseDoc.cursor);
 
         } catch (Exception e) { throw new Exception($"JSON failed to deserialize. Details: {e}"); }
     }
