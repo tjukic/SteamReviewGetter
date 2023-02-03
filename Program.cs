@@ -1,5 +1,5 @@
-﻿//
-// Copyright(C) 2020 Tonci Jukic
+//
+// Copyright(C) 2022 Tonci Jukic
 // 
 // MIT License: http://opensource.org/licenses/MIT
 //
@@ -20,14 +20,14 @@ internal static class Program
 {
     private static async Task<int> Main()
     {
+        Console.WriteLine(@$"Steam Review reader v0.2.{Environment.NewLine}");
         if (Environment.GetCommandLineArgs().Length < 2)
         {
-            Console.WriteLine(@$"{Environment.NewLine}Missing game Steam App ID as parameter.{Environment.NewLine}{Environment.NewLine}Sample usage:{Environment.NewLine}.\srg.exe 2023810{Environment.NewLine}Where 2023810 is a sample Steam app ID.{Environment.NewLine}{Environment.NewLine}Please try again.");
+            Console.WriteLine(@$"Missing game Steam App ID as parameter.{Environment.NewLine}{Environment.NewLine}Sample usage:{Environment.NewLine}.\srg.exe 2023810{Environment.NewLine}Where 2023810 is a sample Steam app ID.{Environment.NewLine}{Environment.NewLine}Please try again.");
             return 0;
         }
         
         ReviewFetcher c = new ReviewFetcher(Environment.GetCommandLineArgs()[1]);
-        Console.WriteLine("Steam Review reader.");
 
         //ReviewFetcher c = new ReviewFetcher("1042490"); //large
         //ReviewFetcher c = new ReviewFetcher("2023810"); //small
