@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -35,7 +35,7 @@ public class ReviewFetcher
         HttpClient httpClient = new HttpClient();
         StringBuilder sb = new StringBuilder();
 
-        sb.AppendFormat($"https://store.steampowered.com/appreviews/{GameSteamId}?json=1&cursor={MutableCursorString}&filter={QueryFilter}&num_per_page={QueryPageNum}");
+        sb.AppendFormat($"https://store.steampowered.com/appreviews/{GameSteamId}?json=1&cursor={MutableCursorString}&filter={QueryFilter}&language=all&num_per_page={QueryPageNum}");
         
         var streamResult = await httpClient.GetByteArrayAsync(sb.ToString());        
         string s = Encoding.UTF8.GetString(streamResult);
