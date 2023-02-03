@@ -1,5 +1,9 @@
 # RELEASE NOTES Steam Review Getter (SRG)
 
+## EA v0.2
+
+Tools now fetches all languages (hardcoded).
+
 ## EA v0.1
 
 ## Description
