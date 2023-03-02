@@ -1,5 +1,5 @@
 //
-// Copyright(C) 2022 Tonci Jukic
+// Copyright(C) 2020+ Tonci Jukic
 // 
 // MIT License: http://opensource.org/licenses/MIT
 //
@@ -24,6 +24,8 @@ internal static class Program
         if (Environment.GetCommandLineArgs().Length < 2)
         {
             Console.WriteLine(@$"Missing game Steam App ID as parameter.{Environment.NewLine}{Environment.NewLine}Sample usage:{Environment.NewLine}.\srg.exe 2023810{Environment.NewLine}Where 2023810 is a sample Steam app ID.{Environment.NewLine}{Environment.NewLine}Please try again.");
+            Console.WriteLine($@"{DateTime.Now.ToString("s").Replace(":","-")}");
+            Console.WriteLine($@"{DateTimeOffset.Now.ToString("s").Replace(":", "-")}");
             return 0;
         }
         
@@ -44,6 +46,7 @@ internal static class Program
 
         if (c.FinalDoc.reviews != null)
         {
+            
             Console.WriteLine($"Done. Found and successfully saved {c.FinalDoc.reviews.Count} reviews.\n");
 
             Console.WriteLine("Writing to files...");
@@ -52,17 +55,19 @@ internal static class Program
 
             var j = JsonSerializer.Serialize(c.FinalDoc.reviews);
 
+            var filenameString = @$"{appPathMain}\game-{c.GameSteamId}-{DateTimeOffset.Now.ToString("s").Replace(":", "-")}-steamreviews";
+
             try
             {
-                await File.WriteAllTextAsync(@$"{appPathMain}\game-{c.GameSteamId}-steamreviews.json", j);
-                Console.WriteLine(@$"Done. Saved JSON. ({appPathMain}\game-{c.GameSteamId}-steamreviews.json)");
+                await File.WriteAllTextAsync(@$"{filenameString}.json", j);
+                Console.WriteLine(@$"Done. Saved JSON. ({filenameString}.json)");
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error writing files. Check permissions? {e}");
             }
 
-            var xlsxpath = @$"{appPathMain}\game-{c.GameSteamId}-steamreviews.xlsx";
+            var xlsxpath = @$"{filenameString}.xlsx";
             await using (var fs = new FileStream(xlsxpath, FileMode.Create, FileAccess.Write))
             {
                 IWorkbook workbook = new XSSFWorkbook();
@@ -162,7 +167,7 @@ internal static class Program
                 try
                 {
                     workbook.Write(fs);
-                    Console.WriteLine(@$"Done. Saved XLSX. ({appPathMain}\game-{c.GameSteamId}-steamreviews.xlsx)");
+                    Console.WriteLine(@$"Done. Saved XLSX. ({filenameString}.xlsx)");
                 }
                 catch (Exception e)
                 {
